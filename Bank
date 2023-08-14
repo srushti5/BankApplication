@@ -1,0 +1,129 @@
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class BankAccount {
+    private int accountNumber;
+    private String accountHolder;
+    private double balance;
+
+    public BankAccount(int accountNumber, String accountHolder, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = initialBalance;
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited: " + amount);
+    }
+
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient balance.");
+        }
+    }
+
+    public void displayBalance() {
+        System.out.println("Account Holder: " + accountHolder);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Balance: " + balance);
+    }
+}
+
+public class BankApplication {
+    public static void main(String[] args) {
+        List<BankAccount> accounts = new ArrayList<>();
+        Scanner Scanner = new Scanner(System.in);
+
+        boolean running = true;
+        while (running) {
+            System.out.println("Bank Application Menu:");
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Display Balance");
+            System.out.println("5. Exit");
+            System.out.print("Select an option: ");
+
+            int choice = Scanner.nextInt();
+            Scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter account holder's name: ");
+                    String accountHolder = Scanner.nextLine();
+                    System.out.print("Enter initial balance: ");
+                    double initialBalance = Scanner.nextDouble();
+                    int accountNumber = accounts.size() + 1; // Simplified account number generation
+                    BankAccount account = new BankAccount(accountNumber, accountHolder, initialBalance);
+                    accounts.add(account);
+                    System.out.println("Account created successfully. Account number: " + accountNumber);
+                    break;
+                case 2:
+                    System.out.print("Enter account number: ");
+                    int depositAccountNumber = Scanner.nextInt();
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount = Scanner.nextDouble();
+                    for (BankAccount acc : accounts) {
+                        if (acc.getAccountNumber() == depositAccountNumber) {
+                            acc.deposit(depositAmount);
+                            break;
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.print("Enter account number: ");
+                    int withdrawAccountNumber = Scanner.nextInt();
+                    System.out.print("Enter withdrawal amount: ");
+                    double withdrawAmount = Scanner.nextDouble();
+                    for (BankAccount acc : accounts) {
+                        if (acc.getAccountNumber() == withdrawAccountNumber) {
+                            acc.withdraw(withdrawAmount);
+                            break;
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.print("Enter account number: ");
+                    int displayAccountNumber = Scanner.nextInt();
+                    for (BankAccount acc : accounts) {
+                        if (acc.getAccountNumber() == displayAccountNumber) {
+                            acc.displayBalance();
+                            break;
+                        }
+                    }
+                    break;
+                case 5:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+                    break;
+            }
+        }
+
+        System.out.println("Thank you for using the Bank Application!");
+        Scanner.close();
+    }
+}
+
+
